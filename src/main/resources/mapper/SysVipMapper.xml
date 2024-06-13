@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stirling.software.SPDF.mapper.SysVipMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="stirling.software.SPDF.domain.vo.SysVipVO">
+        <result column="user_id" property="userId" />
+        <result column="end_time" property="endTime" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="vip_type" property="vipType" />
+        <result column="renew_price" property="renewPrice" />
+    </resultMap>
+
+
+
+    <select id="getById" resultMap="BaseResultMap">
+        SELECT
+            SV.user_id,
+            SV.end_time,
+            SV.status,
+            SV.remark,
+            SV.vip_type,
+            SV.renew_price,
+            SV.id
+        FROM
+            sys_vip SV
+        WHERE
+            SV.id = #{id} AND SV.deleted = 0
+    </select>
+
+</mapper>
