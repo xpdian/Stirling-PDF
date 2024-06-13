@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stirling.software.SPDF.mapper.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="stirling.software.SPDF.domain.vo.SysUserVO">
+        <result column="id" property="id" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_update" property="gmtUpdate" />
+        <result column="create_by" property="createBy" />
+        <result column="update_by" property="updateBy" />
+        <result column="user_name" property="userName" />
+        <result column="nick_name" property="nickName" />
+        <result column="email" property="email" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="sex" property="sex" />
+        <result column="password" property="password" />
+        <result column="avatar" property="avatar" />
+        <result column="status" property="status" />
+        <result column="login_date" property="loginDate" />
+        <result column="tenant_id" property="tenantId" />
+    </resultMap>
+
+    <select id="getMenuIdString" resultType="String">
+        select
+            c.menu_id
+        from
+            sys_user a,
+            sys_user_role b,
+            sys_role_menu c
+        where
+          a.user_name = #{userName}
+          and a.status = 0
+          and a.deleted = 0
+          and b.user_id = a.id
+          and c.role_id = b.role_id
+    </select>
+
+    <select id="getRoleString" resultType="String">
+        select
+              b.role_id
+        from
+            sys_user a,
+            sys_user_role b
+        where
+          a.user_name = #{userName}
+          and a.status = 0
+          and a.deleted = 0
+          and b.user_id = a.id
+    </select>
+
+</mapper>

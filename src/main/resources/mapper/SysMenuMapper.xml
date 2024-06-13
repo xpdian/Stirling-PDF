@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stirling.software.SPDF.mapper.SysMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="stirling.software.SPDF.domain.vo.SysMenuVO">
+        <id column="id" property="id" />
+        <result column="menu_name" property="menuName" />
+        <result column="menu_type" property="menuType" />
+        <result column="status" property="status" />
+        <result column="menu_path" property="menuPath" />
+        <result column="router_name" property="routerName" />
+        <result column="router_component" property="routerComponent" />
+        <result column="permission" property="permission" />
+        <result column="order_num" property="orderNum" />
+        <result column="parent_id" property="parentId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="create_by" property="createBy" />
+        <result column="gmt_update" property="gmtUpdate" />
+        <result column="update_by" property="updateBy" />
+        <collection property="children" column="id" ofType="stirling.software.SPDF.domain.vo.SysMenuVO" javaType="list" select="selectChildren"></collection>
+    </resultMap>
+
+    <select id="selectMenuAndChildrenByPage" parameterType="stirling.software.SPDF.domain.form.SysMenuForm" resultMap="BaseResultMap">
+        select
+               *
+        from
+             sys_menu
+        <where>
+            parent_id = 0 and deleted = 0
+            <if test="status != null and status != '' ">and status = #{status}</if>
+            <if test="menuType != null and menuType != '' ">and menu_type = #{menuType}</if>
+            <if test="menuName != null and menuName != '' ">and menu_name like concat('%', #{menuType}, '%') </if>
+        </where>
+        order by
+            order_num
+        <if test="current != null and size != null">limit #{current },#{size}</if>
+
+    </select>
+
+    <select id="selectMenuCount" parameterType="stirling.software.SPDF.domain.form.SysMenuForm" resultType="long">
+        select
+             count(*)
+        from
+             sys_menu
+        <where>
+            parent_id = 0 and deleted = 0
+            <if test="status != null and status != '' ">and status = #{status}</if>
+            <if test="menuType != null and menuType != '' ">and menu_type = #{menuType}</if>
+            <if test="menuName != null and menuName != '' ">and menu_name like concat('%', #{menuType}, '%') </if>
+        </where>
+    </select>
+
+    <select id="selectChildren" resultMap="BaseResultMap">
+        select * from sys_menu where parent_id = #{id} and deleted = 0
+    </select>
+
+    <select id="selectMenuById" resultMap="BaseResultMap">
+        select * from sys_menu where id = #{menuId} and deleted = 0
+    </select>
+
+
+
+</mapper>

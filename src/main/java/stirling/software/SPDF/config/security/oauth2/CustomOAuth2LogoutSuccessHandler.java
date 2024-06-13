@@ -81,7 +81,7 @@ public class CustomOAuth2LogoutSuccessHandler extends SimpleUrlLogoutSuccessHand
             logger.info("Session invalidated: " + sessionId);
         }
 
-        switch (registrationId.toLowerCase()) {
+        switch (registrationId) {
             case "keycloak":
                 // Add Keycloak specific logout URL if needed
                 String logoutUrl =
