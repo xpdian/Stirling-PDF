@@ -85,6 +85,8 @@ spotless {
 }
 
 dependencies {
+    // 依赖某个jar文件
+    implementation files('libs/aspose-pdf-21.8.jar')
     //security updates
     implementation 'ch.qos.logback:logback-classic:1.5.3'
     implementation 'ch.qos.logback:logback-core:1.5.3'

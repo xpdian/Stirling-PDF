@@ -1,0 +1,63 @@
+spring:
+  thymeleaf:
+    encoding: UTF-8
+    cache: true
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2000MB
+      max-request-size: 2000MB
+  mvc:
+    async:
+      request-timeout: ${SYSTEM_CONNECTIONTIMEOUTMILLISECONDS:1200000}
+  web:
+    resources:
+      static-locations: file:customFiles/static/
+  profiles:
+    active: dev
+
+server:
+  forward-headers-strategy: NATIVE
+  error:
+    path: /error
+    whitelabel:
+      enabled: true
+    include-stacktrace: always
+    include-exception: true
+    include-message: always
+  servlet:
+    session:
+      tracking-modes: cookie
+    context-path: ${SYSTEM_ROOTURIPATH:/}
+  connection-timeout: ${SYSTEM_CONNECTIONTIMEOUTMINUTES:20m}
+
+springdoc:
+  api-docs.path: /v1/api-docs
+  swagger-ui:
+    url: /v1/api-docs
+
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted # 全局指定逻辑删除字段
+      logic-delete-value: 1 # 逻辑删除后的值
+      logic-not-delete-value: 0 # 没有删除的值
+  configuration:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler # 通用枚举处理器
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 日志打印
+  type-enums-package: com.monkeylessey.enums.general # 通用枚举所在包路径
+  mapper-locations: classpath*:mapper/*.xml # mapper.xml位置
+
+
+
+token:
+  secret: fjgkgkgkkfldpeorit54ewsdsdyhtjghjtsdfggfhgh # token秘钥
+  expire: 360  #有效时长，分钟（6小时）
+  header: Authentication  # 放token的请求头字段
+
