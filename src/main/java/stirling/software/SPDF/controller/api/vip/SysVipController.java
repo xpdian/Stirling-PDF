@@ -1,17 +1,16 @@
 package stirling.software.SPDF.controller.api.vip;
 
-import jakarta.validation.constraints.NotEmpty;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.security.access.prepost.PreAuthorize;
-import lombok.RequiredArgsConstructor;
-import java.util.List;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+
+import lombok.RequiredArgsConstructor;
 import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.domain.form.SysVipForm;
 import stirling.software.SPDF.group.Add;
-import stirling.software.SPDF.group.Update;
 import stirling.software.SPDF.service.SysVipService;
 
 /**
@@ -42,5 +41,4 @@ public class SysVipController {
     public Result detail(@PathVariable("id") Integer id) {
         return sysVipService.detail(id);
     }
-
 }

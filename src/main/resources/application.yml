@@ -1,7 +1,7 @@
 spring:
   thymeleaf:
     encoding: UTF-8
-    cache: true
+    cache: false
   devtools:
     livereload:
       enabled: true

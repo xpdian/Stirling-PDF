@@ -1,9 +1,11 @@
 package stirling.software.SPDF.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.Data;
 import stirling.software.SPDF.domain.base.AbsEntity;
 
@@ -20,7 +22,7 @@ public class SysVip extends AbsEntity {
     private static final long serialVersionUID = 1L;
 
     @TableField("user_id")
-    /**  */
+    /** */
     private Integer userId;
 
     @TableField("end_time")
@@ -36,12 +38,10 @@ public class SysVip extends AbsEntity {
     private String remark;
 
     @TableField("vip_type")
-    /**  */
+    /** */
     private String vipType;
 
     @TableField("renew_price")
     /** 续费价格 */
     private BigDecimal renewPrice;
-
-
 }

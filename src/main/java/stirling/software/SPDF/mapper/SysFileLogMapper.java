@@ -1,10 +1,9 @@
 package stirling.software.SPDF.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
 import stirling.software.SPDF.domain.entity.SysFileLog;
 
 /**
@@ -14,7 +13,4 @@ import stirling.software.SPDF.domain.entity.SysFileLog;
  * @since 2024-06-13
  */
 @Mapper
-public interface SysFileLogMapper extends BaseMapper<SysFileLog> {
-
-
-}
+public interface SysFileLogMapper extends BaseMapper<SysFileLog> {}

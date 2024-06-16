@@ -1,10 +1,9 @@
 package stirling.software.SPDF.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
 import stirling.software.SPDF.domain.entity.SysVip;
 import stirling.software.SPDF.domain.vo.SysVipVO;
 
@@ -19,10 +18,9 @@ public interface SysVipMapper extends BaseMapper<SysVip> {
 
     /**
      * id查找会员
+     *
      * @param id
      * @return
      */
     SysVipVO getById(Integer id);
-
-
 }

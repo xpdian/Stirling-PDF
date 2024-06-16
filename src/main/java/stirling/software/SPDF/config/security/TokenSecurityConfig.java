@@ -51,6 +51,7 @@ public class TokenSecurityConfig {
                                 authorize
                                         // 放行view页面请求
                                         .requestMatchers(
+                                                "/**",
                                                 "/",
                                                 "/book-to-pdf",
                                                 "/pdf-to-book",
@@ -136,6 +137,7 @@ public class TokenSecurityConfig {
                                         .requestMatchers(
                                                 "/css/**",
                                                 "/js/**",
+                                                "/pdfjs/**",
                                                 "/img/**",
                                                 "/favicon.ico",
                                                 "/webjars/**",

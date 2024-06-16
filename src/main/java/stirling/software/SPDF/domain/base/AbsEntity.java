@@ -30,5 +30,5 @@ public abstract class AbsEntity {
     private Date gmtUpdate;
 
     @TableField(value = "deleted", fill = FieldFill.INSERT)
-    private String deleted;
+    private Integer deleted;
 }
