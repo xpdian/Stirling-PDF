@@ -161,7 +161,7 @@ public class PDFToFile {
         File outTempDir = null;
 
         // 如果是docx转换，使用这个
-        if (outputFormat.equals("docx")) {
+        if (outputFormat.equals("docx") || outputFormat.equals("doc")) {
             String wordPath = fileConfig.getPath() + FileUtil.genRandomFileName(outputFormat);
             File file = new File(wordPath);
             if (!file.exists()) {
@@ -170,7 +170,11 @@ public class PDFToFile {
             FileOutputStream os = new FileOutputStream(file);
             Document doc = new Document(inputFile.getInputStream());
             // 全面支持DOC, DOCX, OOXML, RTF HTML, OpenDocument, PDF, EPUB, XPS, SWF 相互转换
-            doc.save(os, SaveFormat.DocX);
+            if (outputFormat.equals("docx")) {
+                doc.save(os, SaveFormat.DocX);
+            } else {
+                doc.save(os, SaveFormat.Doc);
+            }
 
             byte[] fileContent = Files.readAllBytes(file.toPath());
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
