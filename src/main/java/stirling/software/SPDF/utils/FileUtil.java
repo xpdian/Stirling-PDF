@@ -13,17 +13,17 @@ public class FileUtil {
     /**
      * 生成随机的10位文件名
      *
-     * @param prefix
+     * @param suffix 文件后缀
      * @return
      */
-    public static String genRandomFileName(String prefix) {
+    public static String genRandomFileName(String suffix) {
         Random random = new Random();
         StringBuilder sb = new StringBuilder(10);
         for (int i = 0; i < 10; i++) {
             int digit = random.nextInt(10); // 生成0到9之间的随机数
             sb.append(digit);
         }
-        sb.append(".").append(prefix);
+        sb.append(".").append(suffix);
         return sb.toString();
     }
 
@@ -37,7 +37,7 @@ public class FileUtil {
     public static File mkdirTempFile(String filePath) throws IOException {
         File file = new File(filePath);
         if (!file.exists()) {
-            file.mkdir();
+            file.createNewFile();
         }
         return file;
     }

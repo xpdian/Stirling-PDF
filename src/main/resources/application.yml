@@ -35,6 +35,7 @@ server:
       tracking-modes: cookie
     context-path: ${SYSTEM_ROOTURIPATH:/}
   connection-timeout: ${SYSTEM_CONNECTIONTIMEOUTMINUTES:20m}
+  port: 10001
 
 springdoc:
   api-docs.path: /v1/api-docs

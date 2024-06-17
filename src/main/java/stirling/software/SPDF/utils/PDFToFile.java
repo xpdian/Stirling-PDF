@@ -155,7 +155,7 @@ public class PDFToFile {
                 FileUtil.mkdirTempFile(
                         fileConfig.getPath()
                                 + SecurityUtil.getCurrentUserId()
-                                + File.separator
+                                + "-"
                                 + FileUtil.genRandomFileName(FileTypeEnum.PDF.getValue()));
         // 转化后的文件
         File outTempDir = null;
@@ -193,7 +193,7 @@ public class PDFToFile {
                 FileUtil.mkdirTempFileDir(
                         fileConfig.getPath()
                                 + SecurityUtil.getCurrentUserId()
-                                + File.separator
+                                + "-"
                                 + FileUtil.genRandomFileName(""));
 
         byte[] fileBytes;
