@@ -1,35 +1,41 @@
 package stirling.software.SPDF.controller.api.converters;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aspose.words.Document;
+import com.aspose.words.PdfSaveOptions;
+
 import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import stirling.software.SPDF.config.FileConfig;
+import stirling.software.SPDF.domain.vo.FileHandlerResultVO;
 import stirling.software.SPDF.model.api.GeneralFile;
-import stirling.software.SPDF.utils.ProcessExecutor;
-import stirling.software.SPDF.utils.ProcessExecutor.ProcessExecutorResult;
-import stirling.software.SPDF.utils.WebResponseUtils;
+import stirling.software.SPDF.utils.*;
 
 @RestController
+@RequiredArgsConstructor
 @Tag(name = "Convert", description = "Convert APIs")
 @RequestMapping("/api/v1/convert")
 public class ConvertOfficeController {
 
-    public byte[] convertToPdf(MultipartFile inputFile) throws IOException, InterruptedException {
+    private final FileConfig fileConfig;
+
+    public FileHandlerResultVO convertToPdf(MultipartFile inputFile, HttpServletResponse response)
+            throws Exception {
         // Check for valid file extension
         String originalFilename = Filenames.toSimpleFileName(inputFile.getOriginalFilename());
         if (originalFilename == null
@@ -37,37 +43,39 @@ public class ConvertOfficeController {
             throw new IllegalArgumentException("Invalid file extension");
         }
 
-        // Save the uploaded file to a temporary location
-        Path tempInputFile =
-                Files.createTempFile("input_", "." + FilenameUtils.getExtension(originalFilename));
-        inputFile.transferTo(tempInputFile);
-
-        // Prepare the output file path
-        Path tempOutputFile = Files.createTempFile("output_", ".pdf");
-
+        File outTempFile = null;
         try {
-            // Run the LibreOffice command
-            List<String> command =
-                    new ArrayList<>(
-                            Arrays.asList(
-                                    "unoconv",
-                                    "-vvv",
-                                    "-f",
-                                    "pdf",
-                                    "-o",
-                                    tempOutputFile.toString(),
-                                    tempInputFile.toString()));
-            ProcessExecutorResult returnCode =
-                    ProcessExecutor.getInstance(ProcessExecutor.Processes.LIBRE_OFFICE)
-                            .runCommandWithOutputHandling(command);
+            outTempFile =
+                    FileUtil.mkdirTempFile(
+                            fileConfig.getPath()
+                                    + SecurityUtil.getCurrentUserId()
+                                    + "-"
+                                    + FileUtil.genRandomFileName("pdf"));
 
-            // Read the converted PDF file
-            byte[] pdfBytes = Files.readAllBytes(tempOutputFile);
-            return pdfBytes;
+            // 加载Word文档
+            Document doc = new Document(inputFile.getInputStream());
+            // 创建 PDF 保存选项对象
+            PdfSaveOptions saveOptions = new PdfSaveOptions();
+            // 将文档另存为 PDF
+            if (fileConfig.getTmpSave()) {
+                FileOutputStream os = new FileOutputStream(outTempFile);
+                doc.save(os, saveOptions);
+                byte[] fileContent = Files.readAllBytes(outTempFile.toPath());
+                response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+                response.getOutputStream().write(fileContent);
+                FileHandlerResultVO result = new FileHandlerResultVO();
+                result.setFileName(inputFile.getOriginalFilename());
+                result.setFileSize(fileContent.length);
+                result.setTmpFilePath(outTempFile.getPath());
+                return result;
+            } else {
+                doc.save(response.getOutputStream(), saveOptions);
+                response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+                response.getOutputStream().flush();
+                return null;
+            }
         } finally {
-            // Clean up the temporary files
-            if (tempInputFile != null) Files.deleteIfExists(tempInputFile);
-            Files.deleteIfExists(tempOutputFile);
+            outTempFile.delete();
         }
     }
 
@@ -81,17 +89,11 @@ public class ConvertOfficeController {
             summary = "Convert a file to a PDF using LibreOffice",
             description =
                     "This endpoint converts a given file to a PDF using LibreOffice API  Input:ANY Output:PDF Type:SISO")
-    public ResponseEntity<byte[]> processFileToPDF(@ModelAttribute GeneralFile request)
-            throws Exception {
+    public FileHandlerResultVO processFileToPDF(
+            @ModelAttribute GeneralFile request, HttpServletResponse response) throws Exception {
         MultipartFile inputFile = request.getFileInput();
         // unused but can start server instance if startup time is to long
         // LibreOfficeListener.getInstance().start();
-
-        byte[] pdfByteArray = convertToPdf(inputFile);
-        return WebResponseUtils.bytesToWebResponse(
-                pdfByteArray,
-                Filenames.toSimpleFileName(inputFile.getOriginalFilename())
-                                .replaceFirst("[.][^.]+$", "")
-                        + "_convertedToPDF.pdf");
+        return convertToPdf(inputFile, response);
     }
 }

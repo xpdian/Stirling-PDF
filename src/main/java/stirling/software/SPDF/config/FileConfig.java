@@ -16,4 +16,7 @@ public class FileConfig {
 
     /** 文件存储路径 */
     private String path;
+
+    /** 是否临时缓存操作文件 */
+    private Boolean tmpSave = Boolean.FALSE;
 }

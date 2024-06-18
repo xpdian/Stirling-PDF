@@ -13,3 +13,4 @@ spring:
 # 文件临时保存路径
 file:
   path: /usr/local/files/
+  tmpSave: true

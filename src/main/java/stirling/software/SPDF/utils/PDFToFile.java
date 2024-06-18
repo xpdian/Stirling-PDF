@@ -124,7 +124,7 @@ public class PDFToFile {
             String outputFormat,
             String libreOfficeFilter,
             HttpServletResponse response)
-            throws IOException, InterruptedException {
+            throws Exception, InterruptedException {
 
         if (!"application/pdf".equals(inputFile.getContentType())) {
             ResultUtil.setErrorResponse(707, "上传的文件类型不正确，无法转换", response);
@@ -151,14 +151,16 @@ public class PDFToFile {
         }
 
         // 临时用户上传的文件
-        File inputTempFile =
+        File inputTempFile = null;
+        // 转化后的文件
+        File outTempDir = null;
+
+        inputTempFile =
                 FileUtil.mkdirTempFile(
                         fileConfig.getPath()
                                 + SecurityUtil.getCurrentUserId()
                                 + "-"
                                 + FileUtil.genRandomFileName(FileTypeEnum.PDF.getValue()));
-        // 转化后的文件
-        File outTempDir = null;
 
         // 如果是docx转换，使用这个
         if (outputFormat.equals("docx") || outputFormat.equals("doc")) {
@@ -260,6 +262,7 @@ public class PDFToFile {
             return result;
         } finally {
             inputTempFile.deleteOnExit();
+            outTempDir.deleteOnExit();
         }
     }
 }

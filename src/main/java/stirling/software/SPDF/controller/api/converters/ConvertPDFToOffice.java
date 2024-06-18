@@ -1,7 +1,5 @@
 package stirling.software.SPDF.controller.api.converters;
 
-import java.io.IOException;
-
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -39,7 +37,7 @@ public class ConvertPDFToOffice {
                     "This endpoint converts a given PDF file to a Presentation format. Input:PDF Output:PPT Type:SISO")
     public void processPdfToPresentation(
             @ModelAttribute PdfToPresentationRequest request, HttpServletResponse response)
-            throws IOException, InterruptedException {
+            throws Exception {
         MultipartFile inputFile = request.getFileInput();
         String outputFormat = request.getOutputFormat();
         pdfToFile.processPdfToOfficeFormat(inputFile, outputFormat, "impress_pdf_import", response);
@@ -52,7 +50,7 @@ public class ConvertPDFToOffice {
                     "This endpoint converts a given PDF file to Text or RTF format. Input:PDF Output:TXT Type:SISO")
     public void processPdfToRTForTXT(
             @ModelAttribute PdfToTextOrRTFRequest request, HttpServletResponse response)
-            throws IOException, InterruptedException {
+            throws Exception {
         MultipartFile inputFile = request.getFileInput();
         String outputFormat = request.getOutputFormat();
         if ("txt".equals(request.getOutputFormat())) {
@@ -76,7 +74,7 @@ public class ConvertPDFToOffice {
     @FileLog(opContent = "PDF转WORD")
     public FileHandlerResultVO processPdfToWord(
             @ModelAttribute PdfToWordRequest request, HttpServletResponse response)
-            throws IOException, InterruptedException {
+            throws Exception {
         MultipartFile inputFile = request.getFileInput();
         String outputFormat = request.getOutputFormat();
         return pdfToFile.processPdfToOfficeFormat(
