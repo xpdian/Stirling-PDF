@@ -11,7 +11,7 @@
  Target Server Version : 80300
  File Encoding         : 65001
 
- Date: 22/06/2024 19:08:38
+ Date: 02/07/2024 21:59:47
 */
 
 SET NAMES utf8mb4;
@@ -679,18 +679,48 @@ DROP TABLE IF EXISTS `sys_vip`;
 CREATE TABLE `sys_vip`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
+  `start_time` datetime NOT NULL COMMENT '开始时间',
   `end_time` datetime NOT NULL COMMENT '到期时间',
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '会员状态',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `deleted` int NULL DEFAULT NULL,
-  `gmt_create` datetime NULL DEFAULT NULL,
-  `vip_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `vip_setting_id` int NOT NULL COMMENT '会员ID',
   `renew_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '续费价格',
+  `gmt_create` datetime NULL DEFAULT NULL,
+  `gmt_update` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '会员' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_vip
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_vip_setting
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_vip_setting`;
+CREATE TABLE `sys_vip_setting`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `vip_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '会员类型：连续包月、1年等',
+  `original_price` decimal(10, 2) NOT NULL COMMENT '原价',
+  `current_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '当前价格',
+  `discount` decimal(10, 2) NULL DEFAULT NULL COMMENT '折扣',
+  `multi_version` int NOT NULL COMMENT '多版本',
+  `vip_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '会员名称',
+  `vip_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '会员说明',
+  `only_buy_once` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '只能购买一次',
+  `effective_start_time` datetime NULL DEFAULT NULL COMMENT '有效开始时间',
+  `effective_end_time` datetime NULL DEFAULT NULL COMMENT '有效结束时间',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '状态：可用、不可用',
+  `gmt_create` datetime NULL DEFAULT NULL,
+  `gmt_update` datetime NULL DEFAULT NULL,
+  `deleted` int NULL DEFAULT 0,
+  `renew_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '续费价格',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '会员管理' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_vip_setting
 -- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
