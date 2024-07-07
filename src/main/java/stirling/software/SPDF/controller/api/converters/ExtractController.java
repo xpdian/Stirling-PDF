@@ -103,7 +103,7 @@ public class ExtractController {
                                                 .replaceFirst("[.][^.]+$", "")
                                         + "_extracted.csv")
                         .build());
-        headers.setContentType(MediaType.parseMediaType("text/csv"));
+        headers.setContentType(MediaType.parseMediaType("text/csv; charset=utf-8"));
 
         return ResponseEntity.ok().headers(headers).body(writer.toString());
     }
