@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -25,6 +26,7 @@ import stirling.software.SPDF.model.ApplicationProperties;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableFeignClients
 public class SPdfApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(SPdfApplication.class);

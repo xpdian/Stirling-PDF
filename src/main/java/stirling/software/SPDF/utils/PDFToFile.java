@@ -29,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 import stirling.software.SPDF.config.FileConfig;
 import stirling.software.SPDF.domain.vo.FileHandlerResultVO;
 import stirling.software.SPDF.enums.FileTypeEnum;
-import stirling.software.SPDF.service.SysFileLogService;
 import stirling.software.SPDF.utils.ProcessExecutor.ProcessExecutorResult;
 
 @Component
@@ -37,7 +36,6 @@ import stirling.software.SPDF.utils.ProcessExecutor.ProcessExecutorResult;
 public class PDFToFile {
 
     private final FileConfig fileConfig;
-    private final SysFileLogService fileLogService;
 
     private static final Logger logger = LoggerFactory.getLogger(PDFToFile.class);
 
@@ -158,7 +156,7 @@ public class PDFToFile {
         inputTempFile =
                 FileUtil.mkdirTempFile(
                         fileConfig.getPath()
-                                + SecurityUtil.getCurrentUserId()
+                                //                                + SecurityUtil.getCurrentUserId()
                                 + "-"
                                 + FileUtil.genRandomFileName(FileTypeEnum.PDF.getValue()));
 
@@ -194,7 +192,7 @@ public class PDFToFile {
         outTempDir =
                 FileUtil.mkdirTempFileDir(
                         fileConfig.getPath()
-                                + SecurityUtil.getCurrentUserId()
+                                //                                + SecurityUtil.getCurrentUserId()
                                 + "-"
                                 + FileUtil.genRandomFileName(""));
 

@@ -48,7 +48,8 @@ public class ConvertOfficeController {
             outTempFile =
                     FileUtil.mkdirTempFile(
                             fileConfig.getPath()
-                                    + SecurityUtil.getCurrentUserId()
+                                    //                                    +
+                                    // SecurityUtil.getCurrentUserId()
                                     + "-"
                                     + FileUtil.genRandomFileName("pdf"));
 

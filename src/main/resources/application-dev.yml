@@ -14,3 +14,13 @@ spring:
 file:
   path: E:\tmp\
   tmpSave: true
+
+# openfeign自定义服务
+customer:
+  feign:
+    serviceId: QINGYUN_SECURITY_SERVICE
+    host: 127.0.0.1
+    port: 9898
+    secure: false
+    uri: http://127.0.0.1:9898
+
