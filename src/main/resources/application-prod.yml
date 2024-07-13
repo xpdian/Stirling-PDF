@@ -19,3 +19,8 @@ file:
 security:
   url: 127.0.0.1:9898
   serviceName: QINGYUN-SECURITY-SERVICE
+
+# 身份凭证
+client:
+  clientId: qazujm12378ttqmn
+  secret: -edf4lsdf89q3$c)ddddd222adfgnsnejcujmaslosallash

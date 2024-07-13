@@ -38,6 +38,9 @@ public class HttpStatusConstants {
     /** 未授权 */
     public static final int UNAUTHORIZED = 401;
 
+    /** 非会员 */
+    public static final int NOT_VIP = 999;
+
     /** 访问受限，授权过期 */
     public static final int FORBIDDEN = 403;
 
