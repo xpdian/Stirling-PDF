@@ -26,7 +26,7 @@ import stirling.software.SPDF.model.ApplicationProperties;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableFeignClients
+@EnableFeignClients(basePackages = "stirling.software.SPDF.feign")
 public class SPdfApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(SPdfApplication.class);

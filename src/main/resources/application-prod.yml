@@ -14,3 +14,8 @@ spring:
 file:
   path: /usr/local/files/
   tmpSave: true
+
+# openfeign自定义服务
+security:
+  url: 127.0.0.1:9898
+  serviceName: QINGYUN-SECURITY-SERVICE
