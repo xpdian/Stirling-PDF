@@ -1,5 +1,6 @@
 package stirling.software.SPDF.controller.api.converters;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,6 @@ import org.commonmark.renderer.html.AttributeProvider;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +23,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.GeneralFile;
 import stirling.software.SPDF.utils.FileToPdf;
 import stirling.software.SPDF.utils.WebResponseUtils;
@@ -41,7 +42,7 @@ public class ConvertMarkdownToPdf {
             summary = "Convert a Markdown file to PDF",
             description =
                     "This endpoint takes a Markdown file input, converts it to HTML, and then to PDF format. Input:MARKDOWN Output:PDF Type:SISO")
-    public ResponseEntity<byte[]> markdownToPdf(@ModelAttribute GeneralFile request)
+    public Result markdownToPdf(@ModelAttribute GeneralFile request)
             throws Exception {
         MultipartFile fileInput = request.getFileInput();
 
@@ -77,7 +78,7 @@ public class ConvertMarkdownToPdf {
         String outputFilename =
                 originalFilename.replaceFirst("[.][^.]+$", "")
                         + ".pdf"; // Remove file extension and append .pdf
-        return WebResponseUtils.bytesToWebResponse(pdfBytes, outputFilename);
+        return Result.ok().data(Base64.getEncoder().encodeToString(pdfBytes));
     }
 }
 

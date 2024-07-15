@@ -25,6 +25,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.PdfMetadata;
 import stirling.software.SPDF.model.api.misc.FlattenRequest;
 import stirling.software.SPDF.utils.PdfUtils;
@@ -42,7 +43,7 @@ public class FlattenController {
             summary = "Flatten PDF form fields or full page",
             description =
                     "Flattening just PDF form fields or converting each page to images to make text unselectable. Input: PDF, Output: PDF. Type: SISO")
-    public ResponseEntity<byte[]> flatten(@ModelAttribute FlattenRequest request) throws Exception {
+    public Result flatten(@ModelAttribute FlattenRequest request) throws Exception {
         MultipartFile file = request.getFileInput();
 
         PDDocument document = Loader.loadPDF(file.getBytes());

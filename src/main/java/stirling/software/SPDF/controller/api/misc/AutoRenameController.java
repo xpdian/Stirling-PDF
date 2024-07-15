@@ -22,6 +22,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.misc.ExtractHeaderRequest;
 import stirling.software.SPDF.utils.WebResponseUtils;
 
@@ -40,7 +41,7 @@ public class AutoRenameController {
             summary = "Extract header from PDF file",
             description =
                     "This endpoint accepts a PDF file and attempts to extract its title or header based on heuristics. Input:PDF Output:PDF Type:SISO")
-    public ResponseEntity<byte[]> extractHeader(@ModelAttribute ExtractHeaderRequest request)
+    public Result extractHeader(@ModelAttribute ExtractHeaderRequest request)
             throws Exception {
         MultipartFile file = request.getFileInput();
         Boolean useFirstTextAsFallback = request.isUseFirstTextAsFallback();

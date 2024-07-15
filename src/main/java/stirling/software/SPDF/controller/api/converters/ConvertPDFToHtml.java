@@ -1,6 +1,5 @@
 package stirling.software.SPDF.controller.api.converters;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.PDFFile;
 import stirling.software.SPDF.utils.PDFToFile;
 
@@ -27,7 +27,7 @@ public class ConvertPDFToHtml {
             summary = "Convert PDF to HTML",
             description =
                     "This endpoint converts a PDF file to HTML format. Input:PDF Output:HTML Type:SISO")
-    public ResponseEntity<byte[]> processPdfToHTML(@ModelAttribute PDFFile request)
+    public Result processPdfToHTML(@ModelAttribute PDFFile request)
             throws Exception {
         MultipartFile inputFile = request.getFileInput();
         return pdfToFile.processPdfToHtml(inputFile);

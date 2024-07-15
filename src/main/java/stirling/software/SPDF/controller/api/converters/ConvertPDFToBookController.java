@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.converters.PdfToBookRequest;
 import stirling.software.SPDF.utils.ProcessExecutor;
 import stirling.software.SPDF.utils.ProcessExecutor.ProcessExecutorResult;
@@ -39,7 +41,7 @@ public class ConvertPDFToBookController {
                     "Convert a PDF to a Book/comic (*.epub | *.mobi | *.azw3 | *.fb2 | *.txt | *.docx .. (others to include by chatgpt) to PDF",
             description =
                     "(Requires bookAndHtmlFormatsInstalled flag and Calibre installed) This endpoint Convert a PDF to a Book/comic (*.epub | *.mobi | *.azw3 | *.fb2 | *.txt | *.docx .. (others to include by chatgpt) to PDF")
-    public ResponseEntity<byte[]> HtmlToPdf(@ModelAttribute PdfToBookRequest request)
+    public Result HtmlToPdf(@ModelAttribute PdfToBookRequest request)
             throws Exception {
         MultipartFile fileInput = request.getFileInput();
 
@@ -97,7 +99,6 @@ public class ConvertPDFToBookController {
                                 .replaceFirst("[.][^.]+$", "")
                         + "."
                         + outputFormat; // Remove file extension and append .pdf
-
-        return WebResponseUtils.bytesToWebResponse(outputFileBytes, outputFilename);
+        return Result.ok().data(Base64.getEncoder().encodeToString(outputFileBytes));
     }
 }

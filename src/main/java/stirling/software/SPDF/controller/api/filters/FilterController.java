@@ -1,6 +1,7 @@
 package stirling.software.SPDF.controller.api.filters;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -17,6 +18,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.PDFComparisonAndCount;
 import stirling.software.SPDF.model.api.PDFWithPageNums;
 import stirling.software.SPDF.model.api.filter.ContainsTextRequest;
@@ -35,7 +37,7 @@ public class FilterController {
     @Operation(
             summary = "Checks if a PDF contains set text, returns true if does",
             description = "Input:PDF Output:Boolean Type:SISO")
-    public ResponseEntity<byte[]> containsText(@ModelAttribute ContainsTextRequest request)
+    public Result containsText(@ModelAttribute ContainsTextRequest request)
             throws IOException, InterruptedException {
         MultipartFile inputFile = request.getFileInput();
         String text = request.getText();
@@ -53,7 +55,7 @@ public class FilterController {
     @Operation(
             summary = "Checks if a PDF contains an image",
             description = "Input:PDF Output:Boolean Type:SISO")
-    public ResponseEntity<byte[]> containsImage(@ModelAttribute PDFWithPageNums request)
+    public Result containsImage(@ModelAttribute PDFWithPageNums request)
             throws IOException, InterruptedException {
         MultipartFile inputFile = request.getFileInput();
         String pageNumber = request.getPageNumbers();
@@ -69,7 +71,7 @@ public class FilterController {
     @Operation(
             summary = "Checks if a PDF is greater, less or equal to a setPageCount",
             description = "Input:PDF Output:Boolean Type:SISO")
-    public ResponseEntity<byte[]> pageCount(@ModelAttribute PDFComparisonAndCount request)
+    public Result pageCount(@ModelAttribute PDFComparisonAndCount request)
             throws IOException, InterruptedException {
         MultipartFile inputFile = request.getFileInput();
         String pageCount = request.getPageCount();
@@ -102,7 +104,7 @@ public class FilterController {
     @Operation(
             summary = "Checks if a PDF is of a certain size",
             description = "Input:PDF Output:Boolean Type:SISO")
-    public ResponseEntity<byte[]> pageSize(@ModelAttribute PageSizeRequest request)
+    public Result pageSize(@ModelAttribute PageSizeRequest request)
             throws IOException, InterruptedException {
         MultipartFile inputFile = request.getFileInput();
         String standardPageSize = request.getStandardPageSize();
@@ -145,7 +147,7 @@ public class FilterController {
     @Operation(
             summary = "Checks if a PDF is a set file size",
             description = "Input:PDF Output:Boolean Type:SISO")
-    public ResponseEntity<byte[]> fileSize(@ModelAttribute FileSizeRequest request)
+    public Result fileSize(@ModelAttribute FileSizeRequest request)
             throws IOException, InterruptedException {
         MultipartFile inputFile = request.getFileInput();
         String fileSize = request.getFileSize();
@@ -178,7 +180,7 @@ public class FilterController {
     @Operation(
             summary = "Checks if a PDF is of a certain rotation",
             description = "Input:PDF Output:Boolean Type:SISO")
-    public ResponseEntity<byte[]> pageRotation(@ModelAttribute PageRotationRequest request)
+    public Result pageRotation(@ModelAttribute PageRotationRequest request)
             throws IOException, InterruptedException {
         MultipartFile inputFile = request.getFileInput();
         int rotation = request.getRotation();

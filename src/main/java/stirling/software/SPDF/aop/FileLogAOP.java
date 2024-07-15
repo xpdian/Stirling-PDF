@@ -31,7 +31,6 @@
 // @RequiredArgsConstructor
 // public class FileLogAOP {
 //
-//    private final SysFileLogService fileLogService;
 //    private final FileConfig fileConfig;
 //
 //    /**

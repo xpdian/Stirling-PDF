@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.general.MergePdfsRequest;
 import stirling.software.SPDF.utils.GeneralUtils;
 import stirling.software.SPDF.utils.WebResponseUtils;
@@ -113,7 +114,7 @@ public class MergeController {
             summary = "Merge multiple PDF files into one",
             description =
                     "This endpoint merges multiple PDF files into a single PDF file. The merged file will contain all pages from the input files in the order they were provided. Input:PDF Output:PDF Type:MISO")
-    public ResponseEntity<byte[]> mergePdfs(@ModelAttribute MergePdfsRequest form)
+    public Result mergePdfs(@ModelAttribute MergePdfsRequest form)
             throws IOException {
         List<File> filesToDelete = new ArrayList<>(); // List of temporary files to delete
         ByteArrayOutputStream docOutputstream =

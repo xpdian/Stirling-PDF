@@ -27,6 +27,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.PdfMetadata;
 import stirling.software.SPDF.model.api.PDFWithPageNums;
 import stirling.software.SPDF.utils.PdfUtils;
@@ -44,7 +45,7 @@ public class SplitPDFController {
             summary = "Split a PDF file into separate documents",
             description =
                     "This endpoint splits a given PDF file into separate documents based on the specified page numbers or ranges. Users can specify pages using individual numbers, ranges, or 'all' for every page. Input:PDF Output:PDF Type:SIMO")
-    public ResponseEntity<byte[]> splitPdf(@ModelAttribute PDFWithPageNums request)
+    public Result splitPdf(@ModelAttribute PDFWithPageNums request)
             throws IOException {
         MultipartFile file = request.getFileInput();
         String pages = request.getPageNumbers();

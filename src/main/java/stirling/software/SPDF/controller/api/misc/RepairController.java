@@ -19,6 +19,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.PDFFile;
 import stirling.software.SPDF.utils.ProcessExecutor;
 import stirling.software.SPDF.utils.ProcessExecutor.ProcessExecutorResult;
@@ -36,7 +37,7 @@ public class RepairController {
             summary = "Repair a PDF file",
             description =
                     "This endpoint repairs a given PDF file by running Ghostscript command. The PDF is first saved to a temporary location, repaired, read back, and then returned as a response. Input:PDF Output:PDF Type:SISO")
-    public ResponseEntity<byte[]> repairPdf(@ModelAttribute PDFFile request)
+    public Result repairPdf(@ModelAttribute PDFFile request)
             throws IOException, InterruptedException {
         MultipartFile inputFile = request.getFileInput();
         // Save the uploaded file to a temporary location

@@ -13,9 +13,12 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.converters.HTMLToPdfRequest;
 import stirling.software.SPDF.utils.FileToPdf;
 import stirling.software.SPDF.utils.WebResponseUtils;
+
+import java.util.Base64;
 
 @RestController
 @Tag(name = "Convert", description = "Convert APIs")
@@ -31,7 +34,7 @@ public class ConvertHtmlToPDF {
             summary = "Convert an HTML or ZIP (containing HTML and CSS) to PDF",
             description =
                     "This endpoint takes an HTML or ZIP file input and converts it to a PDF format.")
-    public ResponseEntity<byte[]> HtmlToPdf(@ModelAttribute HTMLToPdfRequest request)
+    public Result HtmlToPdf(@ModelAttribute HTMLToPdfRequest request)
             throws Exception {
         MultipartFile fileInput = request.getFileInput();
 
@@ -55,7 +58,6 @@ public class ConvertHtmlToPDF {
         String outputFilename =
                 originalFilename.replaceFirst("[.][^.]+$", "")
                         + ".pdf"; // Remove file extension and append .pdf
-
-        return WebResponseUtils.bytesToWebResponse(pdfBytes, outputFilename);
+        return Result.ok().data(Base64.getEncoder().encodeToString(pdfBytes));
     }
 }

@@ -25,6 +25,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.misc.AddPageNumbersRequest;
 import stirling.software.SPDF.utils.GeneralUtils;
 import stirling.software.SPDF.utils.WebResponseUtils;
@@ -41,7 +42,7 @@ public class PageNumbersController {
             summary = "Add page numbers to a PDF document",
             description =
                     "This operation takes an input PDF file and adds page numbers to it. Input:PDF Output:PDF Type:SISO")
-    public ResponseEntity<byte[]> addPageNumbers(@ModelAttribute AddPageNumbersRequest request)
+    public Result addPageNumbers(@ModelAttribute AddPageNumbersRequest request)
             throws IOException {
         MultipartFile file = request.getFileInput();
         String customMargin = request.getCustomMargin();

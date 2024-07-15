@@ -2,6 +2,7 @@ package stirling.software.SPDF.controller.api.converters;
 
 import java.io.IOException;
 import java.net.URLConnection;
+import java.util.Base64;
 
 import org.apache.pdfbox.rendering.ImageType;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.converters.ConvertToImageRequest;
 import stirling.software.SPDF.model.api.converters.ConvertToPdfRequest;
 import stirling.software.SPDF.utils.PdfUtils;
@@ -35,7 +37,7 @@ public class ConvertImgPDFController {
             summary = "Convert PDF to image(s)",
             description =
                     "This endpoint converts a PDF file to image(s) with the specified image format, color type, and DPI. Users can choose to get a single image or multiple images.  Input:PDF Output:Image Type:SI-Conditional")
-    public ResponseEntity<byte[]> convertToImage(@ModelAttribute ConvertToImageRequest request)
+    public Result convertToImage(@ModelAttribute ConvertToImageRequest request)
             throws NumberFormatException, Exception {
         MultipartFile file = request.getFileInput();
         String imageFormat = request.getImageFormat();
@@ -72,11 +74,10 @@ public class ConvertImgPDFController {
         if (singleImage) {
             String docName = filename + "." + imageFormat;
             MediaType mediaType = MediaType.parseMediaType(getMediaType(imageFormat));
-            return WebResponseUtils.bytesToWebResponse(result, docName, mediaType);
+            return Result.ok().data(Base64.getEncoder().encodeToString(result));
         } else {
             String zipFilename = filename + "_convertedToImages.zip";
-            return WebResponseUtils.bytesToWebResponse(
-                    result, zipFilename, MediaType.APPLICATION_OCTET_STREAM);
+            return Result.ok().data(Base64.getEncoder().encodeToString(result));
         }
     }
 
@@ -85,7 +86,7 @@ public class ConvertImgPDFController {
             summary = "Convert images to a PDF file",
             description =
                     "This endpoint converts one or more images to a PDF file. Users can specify whether to stretch the images to fit the PDF page, and whether to automatically rotate the images. Input:Image Output:PDF Type:MISO")
-    public ResponseEntity<byte[]> convertToPdf(@ModelAttribute ConvertToPdfRequest request)
+    public Result convertToPdf(@ModelAttribute ConvertToPdfRequest request)
             throws IOException {
         MultipartFile[] file = request.getFileInput();
         String fitOption = request.getFitOption();
@@ -94,9 +95,7 @@ public class ConvertImgPDFController {
 
         // Convert the file to PDF and get the resulting bytes
         byte[] bytes = PdfUtils.imageToPdf(file, fitOption, autoRotate, colorType);
-        return WebResponseUtils.bytesToWebResponse(
-                bytes,
-                file[0].getOriginalFilename().replaceFirst("[.][^.]+$", "") + "_converted.pdf");
+        return Result.ok().data(Base64.getEncoder().encodeToString(bytes));
     }
 
     private String getMediaType(String imageFormat) {

@@ -2,26 +2,39 @@ package stirling.software.SPDF.config;
 
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import lombok.RequiredArgsConstructor;
+import stirling.software.SPDF.interceptor.ApiInterceptor;
 import stirling.software.SPDF.model.ApplicationProperties;
 
 @Configuration
-public class Beans implements WebMvcConfigurer {
+@RequiredArgsConstructor
+public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired ApplicationProperties applicationProperties;
+    private final ApplicationProperties applicationProperties;
+    private final ApiInterceptor apiInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
         registry.addInterceptor(new CleanUrlInterceptor());
+        registry.addInterceptor(apiInterceptor).addPathPatterns("/api/**");
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedHeaders("*")
+                .allowedMethods("POST", "GET", "PUT", "DELETE")
+                .allowedOriginPatterns("*");
     }
 
     @Bean

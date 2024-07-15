@@ -13,9 +13,12 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.GeneralFile;
 import stirling.software.SPDF.utils.FileToPdf;
 import stirling.software.SPDF.utils.WebResponseUtils;
+
+import java.util.Base64;
 
 @RestController
 @Tag(name = "Convert", description = "Convert APIs")
@@ -32,7 +35,7 @@ public class ConvertBookToPDFController {
                     "Convert a BOOK/comic (*.epub | *.mobi | *.azw3 | *.fb2 | *.txt | *.docx) to PDF",
             description =
                     "(Requires bookAndHtmlFormatsInstalled flag and Calibre installed) This endpoint takes an BOOK/comic (*.epub | *.mobi | *.azw3 | *.fb2 | *.txt | *.docx)  input and converts it to PDF format.")
-    public ResponseEntity<byte[]> HtmlToPdf(@ModelAttribute GeneralFile request) throws Exception {
+    public Result HtmlToPdf(@ModelAttribute GeneralFile request) throws Exception {
         MultipartFile fileInput = request.getFileInput();
 
         if (!bookAndHtmlFormatsInstalled) {
@@ -63,7 +66,6 @@ public class ConvertBookToPDFController {
         String outputFilename =
                 originalFilename.replaceFirst("[.][^.]+$", "")
                         + ".pdf"; // Remove file extension and append .pdf
-
-        return WebResponseUtils.bytesToWebResponse(pdfBytes, outputFilename);
+        return Result.ok().data(Base64.getEncoder().encodeToString(pdfBytes));
     }
 }

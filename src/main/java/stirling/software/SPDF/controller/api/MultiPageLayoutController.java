@@ -25,6 +25,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.general.MergeMultiplePagesRequest;
 import stirling.software.SPDF.utils.WebResponseUtils;
 
@@ -40,7 +41,7 @@ public class MultiPageLayoutController {
             summary = "Merge multiple pages of a PDF document into a single page",
             description =
                     "This operation takes an input PDF file and the number of pages to merge into a single sheet in the output PDF file. Input:PDF Output:PDF Type:SISO")
-    public ResponseEntity<byte[]> mergeMultiplePagesIntoOne(
+    public Result mergeMultiplePagesIntoOne(
             @ModelAttribute MergeMultiplePagesRequest request) throws IOException {
 
         int pagesPerSheet = request.getPagesPerSheet();

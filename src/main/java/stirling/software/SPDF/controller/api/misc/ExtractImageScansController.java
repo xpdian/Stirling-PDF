@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.misc.ExtractImageScansRequest;
 import stirling.software.SPDF.utils.ProcessExecutor;
 import stirling.software.SPDF.utils.ProcessExecutor.ProcessExecutorResult;
@@ -48,7 +49,7 @@ public class ExtractImageScansController {
             summary = "Extract image scans from an input file",
             description =
                     "This endpoint extracts image scans from a given file based on certain parameters. Users can specify angle threshold, tolerance, minimum area, minimum contour area, and border size. Input:PDF Output:IMAGE/ZIP Type:SIMO")
-    public ResponseEntity<byte[]> extractImageScans(
+    public Result extractImageScans(
             @RequestBody(
                             description = "Form data containing file and extraction parameters",
                             required = true,

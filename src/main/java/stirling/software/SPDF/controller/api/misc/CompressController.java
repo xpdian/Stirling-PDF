@@ -31,6 +31,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.misc.OptimizePdfRequest;
 import stirling.software.SPDF.utils.GeneralUtils;
 import stirling.software.SPDF.utils.ProcessExecutor;
@@ -49,7 +50,7 @@ public class CompressController {
             summary = "Optimize PDF file",
             description =
                     "This endpoint accepts a PDF file and optimizes it based on the provided parameters. Input:PDF Output:PDF Type:SISO")
-    public ResponseEntity<byte[]> optimizePdf(@ModelAttribute OptimizePdfRequest request)
+    public Result optimizePdf(@ModelAttribute OptimizePdfRequest request)
             throws Exception {
         MultipartFile inputFile = request.getFileInput();
         Integer optimizeLevel = request.getOptimizeLevel();

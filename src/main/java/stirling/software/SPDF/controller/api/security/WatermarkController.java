@@ -35,6 +35,7 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.security.AddWatermarkRequest;
 import stirling.software.SPDF.utils.WebResponseUtils;
 
@@ -48,7 +49,7 @@ public class WatermarkController {
             summary = "Add watermark to a PDF file",
             description =
                     "This endpoint adds a watermark to a given PDF file. Users can specify the watermark type (text or image), rotation, opacity, width spacer, and height spacer. Input:PDF Output:PDF Type:SISO")
-    public ResponseEntity<byte[]> addWatermark(@ModelAttribute AddWatermarkRequest request)
+    public Result addWatermark(@ModelAttribute AddWatermarkRequest request)
             throws IOException, Exception {
         MultipartFile pdfFile = request.getFileInput();
         String watermarkType = request.getWatermarkType();

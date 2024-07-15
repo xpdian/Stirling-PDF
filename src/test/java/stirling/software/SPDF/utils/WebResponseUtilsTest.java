@@ -22,7 +22,7 @@ public class WebResponseUtilsTest {
             baos.write("Sample PDF content".getBytes());
             String docName = "sample.pdf";
 
-            ResponseEntity<byte[]> responseEntity = WebResponseUtils.boasToWebResponse(baos, docName);
+            Result responseEntity = WebResponseUtils.boasToWebResponse(baos, docName);
 
             assertNotNull(responseEntity);
             assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -45,7 +45,7 @@ public class WebResponseUtilsTest {
             byte[] fileContent = "Sample file content".getBytes();
             MockMultipartFile file = new MockMultipartFile("file", "sample.txt", "text/plain", fileContent);
 
-            ResponseEntity<byte[]> responseEntity = WebResponseUtils.multiPartFileToWebResponse(file);
+            Result responseEntity = WebResponseUtils.multiPartFileToWebResponse(file);
 
             assertNotNull(responseEntity);
             assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -68,7 +68,7 @@ public class WebResponseUtilsTest {
             String docName = "sample.txt";
             MediaType mediaType = MediaType.TEXT_PLAIN;
 
-            ResponseEntity<byte[]> responseEntity = WebResponseUtils.bytesToWebResponse(bytes, docName, mediaType);
+            Result responseEntity = WebResponseUtils.bytesToWebResponse(bytes, docName, mediaType);
 
             assertNotNull(responseEntity);
             assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -92,7 +92,7 @@ public class WebResponseUtilsTest {
             document.addPage(new org.apache.pdfbox.pdmodel.PDPage());
             String docName = "sample.pdf";
 
-            ResponseEntity<byte[]> responseEntity = WebResponseUtils.pdfDocToWebResponse(document, docName);
+            Result responseEntity = WebResponseUtils.pdfDocToWebResponse(document, docName);
 
             assertNotNull(responseEntity);
             assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
