@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.converters.PdfToPdfARequest;
 import stirling.software.SPDF.utils.ProcessExecutor;
 import stirling.software.SPDF.utils.ProcessExecutor.ProcessExecutorResult;
@@ -47,7 +45,7 @@ public class ConvertPDFToPDFA {
             summary = "Convert a PDF to a PDF/A",
             description =
                     "This endpoint converts a PDF file to a PDF/A file. PDF/A is a format designed for long-term archiving of digital documents. Input:PDF Output:PDF Type:SISO")
-    public Result pdfToPdfA(@ModelAttribute PdfToPdfARequest request)
+    public ResponseEntity<byte[]> pdfToPdfA(@ModelAttribute PdfToPdfARequest request)
             throws Exception {
         MultipartFile inputFile = request.getFileInput();
         String outputFormat = request.getOutputFormat();
@@ -115,6 +113,6 @@ public class ConvertPDFToPDFA {
                 Filenames.toSimpleFileName(inputFile.getOriginalFilename())
                                 .replaceFirst("[.][^.]+$", "")
                         + "_PDFA.pdf";
-        return Result.ok().data(Base64.getEncoder().encodeToString(optimizedPdfBytes));
+        return WebResponseUtils.bytesToWebResponse(optimizedPdfBytes, outputFilename);
     }
 }

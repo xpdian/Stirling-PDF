@@ -21,7 +21,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.SortTypes;
 import stirling.software.SPDF.model.api.PDFWithPageNums;
 import stirling.software.SPDF.model.api.general.RearrangePagesRequest;
@@ -40,7 +39,7 @@ public class RearrangePagesPDFController {
             summary = "Remove pages from a PDF file",
             description =
                     "This endpoint removes specified pages from a given PDF file. Users can provide a comma-separated list of page numbers or ranges to delete. Input:PDF Output:PDF Type:SISO")
-    public Result deletePages(@ModelAttribute PDFWithPageNums request)
+    public ResponseEntity<byte[]> deletePages(@ModelAttribute PDFWithPageNums request)
             throws IOException {
 
         MultipartFile pdfFile = request.getFileInput();
@@ -180,7 +179,7 @@ public class RearrangePagesPDFController {
             summary = "Rearrange pages in a PDF file",
             description =
                     "This endpoint rearranges pages in a given PDF file based on the specified page order or custom mode. Users can provide a page order as a comma-separated list of page numbers or page ranges, or a custom mode. Input:PDF Output:PDF")
-    public Result rearrangePages(@ModelAttribute RearrangePagesRequest request)
+    public ResponseEntity<byte[]> rearrangePages(@ModelAttribute RearrangePagesRequest request)
             throws IOException {
         MultipartFile pdfFile = request.getFileInput();
         String pageOrder = request.getPageNumbers();

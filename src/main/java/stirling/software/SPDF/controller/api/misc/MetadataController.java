@@ -24,7 +24,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.misc.MetadataRequest;
 import stirling.software.SPDF.utils.WebResponseUtils;
 
@@ -50,7 +49,7 @@ public class MetadataController {
             summary = "Update metadata of a PDF file",
             description =
                     "This endpoint allows you to update the metadata of a given PDF file. You can add, modify, or delete standard and custom metadata fields. Input:PDF Output:PDF Type:SISO")
-    public Result metadata(@ModelAttribute MetadataRequest request)
+    public ResponseEntity<byte[]> metadata(@ModelAttribute MetadataRequest request)
             throws IOException {
 
         // Extract PDF file from the request object

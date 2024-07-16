@@ -73,7 +73,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.PDFFile;
 import stirling.software.SPDF.utils.WebResponseUtils;
 
@@ -88,7 +87,7 @@ public class GetInfoOnPDF {
 
     @PostMapping(consumes = "multipart/form-data", value = "/get-info-on-pdf")
     @Operation(summary = "Summary here", description = "desc. Input:PDF Output:JSON Type:SISO")
-    public Result getPdfInfo(@ModelAttribute PDFFile request) throws IOException {
+    public ResponseEntity<byte[]> getPdfInfo(@ModelAttribute PDFFile request) throws IOException {
         MultipartFile inputFile = request.getFileInput();
         try (PDDocument pdfBoxDoc = Loader.loadPDF(inputFile.getBytes()); ) {
             ObjectMapper objectMapper = new ObjectMapper();

@@ -18,6 +18,7 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,13 +30,13 @@ import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.PlanarYUVLuminanceSource;
+import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 
 import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.misc.AutoSplitPdfRequest;
 import stirling.software.SPDF.utils.WebResponseUtils;
 
@@ -53,7 +54,7 @@ public class AutoSplitPdfController {
             summary = "Auto split PDF pages into separate documents",
             description =
                     "This endpoint accepts a PDF file, scans each page for a specific QR code, and splits the document at the QR code boundaries. The output is a zip file containing each separate PDF document. Input:PDF Output:ZIP-PDF Type:SISO")
-    public Result autoSplitPdf(@ModelAttribute AutoSplitPdfRequest request)
+    public ResponseEntity<byte[]> autoSplitPdf(@ModelAttribute AutoSplitPdfRequest request)
             throws IOException {
         MultipartFile file = request.getFileInput();
         boolean duplexMode = request.isDuplexMode();
@@ -166,7 +167,7 @@ public class AutoSplitPdfController {
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
 
         try {
-            com.google.zxing.Result result = new MultiFormatReader().decode(bitmap);
+            Result result = new MultiFormatReader().decode(bitmap);
             return result.getText();
         } catch (NotFoundException e) {
             return null; // there is no QR code in the image

@@ -5,18 +5,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import stirling.software.SPDF.config.feign.CustomerFeignConfiguration;
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.domain.dto.ClientInfoDTO;
 
 /**
  * @author：xp
  * @date：2024/7/13 16:52
  */
-@FeignClient(
-        name = "${security.serviceName}",
-        url = "${security.url}",
-        configuration = CustomerFeignConfiguration.class)
+@FeignClient(name = "${security.serviceName}", url = "${security.url}")
 public interface UserFeign {
 
     //    @PostMapping("/xpstart/login")
@@ -30,5 +25,5 @@ public interface UserFeign {
      * @return
      */
     @PostMapping("/vip/check")
-    Result authVip(@RequestHeader("Authorization") String token, @RequestBody ClientInfoDTO dto);
+    Boolean authVip(@RequestHeader("Authorization") String token, @RequestBody ClientInfoDTO dto);
 }

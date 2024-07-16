@@ -33,7 +33,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.PDFWithImageFormatRequest;
 import stirling.software.SPDF.utils.WebResponseUtils;
 
@@ -49,7 +48,7 @@ public class ExtractImagesController {
             summary = "Extract images from a PDF file",
             description =
                     "This endpoint extracts images from a given PDF file and returns them in a zip file. Users can specify the output image format. Input:PDF Output:IMAGE/ZIP Type:SIMO")
-    public Result extractImages(@ModelAttribute PDFWithImageFormatRequest request)
+    public ResponseEntity<byte[]> extractImages(@ModelAttribute PDFWithImageFormatRequest request)
             throws IOException {
         MultipartFile file = request.getFileInput();
         String format = request.getFormat();

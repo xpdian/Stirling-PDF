@@ -27,7 +27,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.misc.ProcessPdfWithOcrRequest;
 import stirling.software.SPDF.utils.ProcessExecutor;
 import stirling.software.SPDF.utils.ProcessExecutor.ProcessExecutorResult;
@@ -58,7 +57,7 @@ public class OCRController {
             summary = "Process a PDF file with OCR",
             description =
                     "This endpoint processes a PDF file using OCR (Optical Character Recognition). Users can specify languages, sidecar, deskew, clean, cleanFinal, ocrType, ocrRenderType, and removeImagesAfter options. Input:PDF Output:PDF Type:SI-Conditional")
-    public Result processPdfWithOCR(
+    public ResponseEntity<byte[]> processPdfWithOCR(
             @ModelAttribute ProcessPdfWithOcrRequest request)
             throws IOException, InterruptedException {
         MultipartFile inputFile = request.getFileInput();

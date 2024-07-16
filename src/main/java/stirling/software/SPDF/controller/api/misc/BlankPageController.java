@@ -28,7 +28,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.misc.RemoveBlankPagesRequest;
 import stirling.software.SPDF.utils.PdfUtils;
 import stirling.software.SPDF.utils.WebResponseUtils;
@@ -45,7 +44,7 @@ public class BlankPageController {
             summary = "Remove blank pages from a PDF file",
             description =
                     "This endpoint removes blank pages from a given PDF file. Users can specify the threshold and white percentage to tune the detection of blank pages. Input:PDF Output:PDF Type:SISO")
-    public Result removeBlankPages(@ModelAttribute RemoveBlankPagesRequest request)
+    public ResponseEntity<byte[]> removeBlankPages(@ModelAttribute RemoveBlankPagesRequest request)
             throws IOException, InterruptedException {
         MultipartFile inputFile = request.getFileInput();
         int threshold = request.getThreshold();
@@ -108,7 +107,7 @@ public class BlankPageController {
                             + "_blanksRemoved.pdf");
         } catch (IOException e) {
             logger.error("exception", e);
-            return Result.error(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } finally {
             if (document != null) document.close();
         }

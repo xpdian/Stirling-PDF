@@ -26,7 +26,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.ApplicationProperties;
 import stirling.software.SPDF.model.PipelineConfig;
 import stirling.software.SPDF.model.api.HandleDataRequest;
@@ -48,7 +47,7 @@ public class PipelineController {
     @Autowired private ObjectMapper objectMapper;
 
     @PostMapping("/handleData")
-    public Result handleData(@ModelAttribute HandleDataRequest request)
+    public ResponseEntity<byte[]> handleData(@ModelAttribute HandleDataRequest request)
             throws JsonMappingException, JsonProcessingException {
 
         MultipartFile[] files = request.getFileInput();

@@ -41,7 +41,6 @@ import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.PDFFile;
 import stirling.software.SPDF.utils.PdfUtils;
 import stirling.software.SPDF.utils.WebResponseUtils;
@@ -60,7 +59,7 @@ public class FakeScanControllerWIP {
             summary = "Repair a PDF file",
             description =
                     "This endpoint repairs a given PDF file by running Ghostscript command. The PDF is first saved to a temporary location, repaired, read back, and then returned as a response.")
-    public Result fakeScan(@ModelAttribute PDFFile request) throws IOException {
+    public ResponseEntity<byte[]> fakeScan(@ModelAttribute PDFFile request) throws IOException {
         MultipartFile inputFile = request.getFileInput();
 
         // Load the PDF document

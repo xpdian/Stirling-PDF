@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -28,7 +27,6 @@ import io.github.pixee.security.Filenames;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import stirling.software.SPDF.config.FileConfig;
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.domain.vo.FileHandlerResultVO;
 import stirling.software.SPDF.enums.FileTypeEnum;
 import stirling.software.SPDF.utils.ProcessExecutor.ProcessExecutorResult;
@@ -41,10 +39,10 @@ public class PDFToFile {
 
     private static final Logger logger = LoggerFactory.getLogger(PDFToFile.class);
 
-    public Result processPdfToHtml(MultipartFile inputFile)
+    public ResponseEntity<byte[]> processPdfToHtml(MultipartFile inputFile)
             throws IOException, InterruptedException {
         if (!"application/pdf".equals(inputFile.getContentType())) {
-            return Result.error(HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         // Get the original PDF file name without the extension
@@ -104,7 +102,9 @@ public class PDFToFile {
             if (tempInputFile != null) Files.deleteIfExists(tempInputFile);
             if (tempOutputDir != null) FileUtils.deleteDirectory(tempOutputDir.toFile());
         }
-        return Result.ok().data(Base64.getEncoder().encodeToString(fileBytes));
+
+        return WebResponseUtils.bytesToWebResponse(
+                fileBytes, fileName, MediaType.APPLICATION_OCTET_STREAM);
     }
 
     /**
@@ -117,7 +117,7 @@ public class PDFToFile {
      * @throws IOException
      * @throws InterruptedException
      */
-    public Result processPdfToOfficeFormat(
+    public FileHandlerResultVO processPdfToOfficeFormat(
             MultipartFile inputFile,
             String outputFormat,
             String libreOfficeFilter,
@@ -177,14 +177,16 @@ public class PDFToFile {
             }
 
             byte[] fileContent = Files.readAllBytes(file.toPath());
-
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+            response.getOutputStream().write(fileContent);
+            response.getOutputStream().flush();
             os.close();
             inputTempFile.delete();
             FileHandlerResultVO result = new FileHandlerResultVO();
             result.setFileSize(fileContent.length);
             result.setFileName(inputFile.getOriginalFilename());
             result.setTmpFilePath(file.getPath());
-            return Result.ok().data(Base64.getEncoder().encodeToString(fileContent));
+            return result;
         }
 
         outTempDir =
@@ -250,9 +252,12 @@ public class PDFToFile {
                 fileBytes = byteArrayOutputStream.toByteArray();
             }
             System.out.println("fileBytes=" + fileBytes.length);
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+            response.getOutputStream().write(fileBytes);
+            response.getOutputStream().flush();
 
             result.setFileSize(fileBytes.length);
-            return Result.ok().data(Base64.getEncoder().encodeToString(fileBytes));
+            return result;
         } finally {
             inputTempFile.deleteOnExit();
             outTempDir.deleteOnExit();

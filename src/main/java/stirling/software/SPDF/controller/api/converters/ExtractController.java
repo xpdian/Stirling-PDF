@@ -1,9 +1,7 @@
 package stirling.software.SPDF.controller.api.converters;
 
 import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import org.apache.pdfbox.Loader;
@@ -27,7 +25,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import stirling.software.SPDF.controller.api.CropController;
 import stirling.software.SPDF.controller.api.strippers.PDFTableStripper;
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.extract.PDFFilePage;
 
 @RestController
@@ -42,7 +39,7 @@ public class ExtractController {
             summary = "Extracts a PDF document to csv",
             description =
                     "This operation takes an input PDF file and returns CSV file of whole page. Input:PDF Output:CSV Type:SISO")
-    public Result PdfToCsv(@ModelAttribute PDFFilePage form) throws Exception {
+    public ResponseEntity<String> PdfToCsv(@ModelAttribute PDFFilePage form) throws Exception {
 
         ArrayList<String> tableData = new ArrayList<>();
         int columnsCount = 0;
@@ -107,7 +104,8 @@ public class ExtractController {
                                         + "_extracted.csv")
                         .build());
         headers.setContentType(MediaType.parseMediaType("text/csv; charset=utf-8"));
-        return Result.ok().data(Base64.getEncoder().encodeToString(writer.toString().getBytes(StandardCharsets.UTF_8)));
+
+        return ResponseEntity.ok().headers(headers).body(writer.toString());
     }
 
     private ArrayList<String> getRecordsList(int rowsCounts, List<String> items) {

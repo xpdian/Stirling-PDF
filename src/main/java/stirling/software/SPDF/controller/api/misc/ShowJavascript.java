@@ -20,7 +20,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.PDFFile;
 import stirling.software.SPDF.utils.WebResponseUtils;
 
@@ -35,7 +34,7 @@ public class ShowJavascript {
     @Operation(
             summary = "Grabs all JS from a PDF and returns a single JS file with all code",
             description = "desc. Input:PDF Output:JS Type:SISO")
-    public Result extractHeader(@ModelAttribute PDFFile request) throws Exception {
+    public ResponseEntity<byte[]> extractHeader(@ModelAttribute PDFFile request) throws Exception {
         MultipartFile inputFile = request.getFileInput();
         String script = "";
 

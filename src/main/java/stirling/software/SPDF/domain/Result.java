@@ -122,24 +122,6 @@ public class Result extends HashMap<String, Object> {
         return this;
     }
 
-    /**
-     * 获取数据
-     *
-     * @return
-     */
-    public Object getData() {
-        return this.get(DATA);
-    }
-
-    /**
-     * 获取code
-     *
-     * @return
-     */
-    public Integer getCode() {
-        return (Integer) this.get(CODE);
-    }
-
     @Override
     public Result put(String key, Object value) {
         super.put(key, value);

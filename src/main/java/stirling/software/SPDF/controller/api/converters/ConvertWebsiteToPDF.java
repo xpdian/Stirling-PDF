@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.converters.UrlToPdfRequest;
 import stirling.software.SPDF.utils.GeneralUtils;
 import stirling.software.SPDF.utils.ProcessExecutor;
@@ -33,7 +31,7 @@ public class ConvertWebsiteToPDF {
             summary = "Convert a URL to a PDF",
             description =
                     "This endpoint fetches content from a URL and converts it to a PDF format. Input:N/A Output:PDF Type:SISO")
-    public Result urlToPdf(@ModelAttribute UrlToPdfRequest request)
+    public ResponseEntity<byte[]> urlToPdf(@ModelAttribute UrlToPdfRequest request)
             throws IOException, InterruptedException {
         String URL = request.getUrlInput();
 
@@ -65,7 +63,8 @@ public class ConvertWebsiteToPDF {
         }
         // Convert URL to a safe filename
         String outputFilename = convertURLToFileName(URL);
-        return Result.ok().data(Base64.getEncoder().encodeToString(pdfBytes));
+
+        return WebResponseUtils.bytesToWebResponse(pdfBytes, outputFilename);
     }
 
     private String convertURLToFileName(String url) {

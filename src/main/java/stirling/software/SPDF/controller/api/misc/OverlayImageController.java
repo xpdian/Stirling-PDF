@@ -16,7 +16,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.misc.OverlayImageRequest;
 import stirling.software.SPDF.utils.PdfUtils;
 import stirling.software.SPDF.utils.WebResponseUtils;
@@ -33,7 +32,7 @@ public class OverlayImageController {
             summary = "Overlay image onto a PDF file",
             description =
                     "This endpoint overlays an image onto a PDF file at the specified coordinates. The image can be overlaid on every page of the PDF if specified.  Input:PDF/IMAGE Output:PDF Type:SISO")
-    public Result overlayImage(@ModelAttribute OverlayImageRequest request) {
+    public ResponseEntity<byte[]> overlayImage(@ModelAttribute OverlayImageRequest request) {
         MultipartFile pdfFile = request.getFileInput();
         MultipartFile imageFile = request.getImageFile();
         float x = request.getX();
@@ -51,7 +50,7 @@ public class OverlayImageController {
                             + "_overlayed.pdf");
         } catch (IOException e) {
             logger.error("Failed to add image to PDF", e);
-            return Result.error(HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

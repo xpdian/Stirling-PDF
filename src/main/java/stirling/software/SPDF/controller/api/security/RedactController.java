@@ -29,7 +29,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.PDFText;
 import stirling.software.SPDF.model.api.security.RedactPdfRequest;
 import stirling.software.SPDF.pdf.TextFinder;
@@ -47,7 +46,7 @@ public class RedactController {
             summary = "Redacts listOfText in a PDF document",
             description =
                     "This operation takes an input PDF file and redacts the provided listOfText. Input:PDF, Output:PDF, Type:SISO")
-    public Result redactPdf(@ModelAttribute RedactPdfRequest request)
+    public ResponseEntity<byte[]> redactPdf(@ModelAttribute RedactPdfRequest request)
             throws Exception {
         MultipartFile file = request.getFileInput();
         String listOfTextString = request.getListOfText();

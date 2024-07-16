@@ -24,7 +24,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.general.SplitPdfBySizeOrCountRequest;
 import stirling.software.SPDF.utils.GeneralUtils;
 import stirling.software.SPDF.utils.WebResponseUtils;
@@ -42,7 +41,7 @@ public class SplitPdfBySizeController {
             description =
                     "split PDF into multiple paged documents based on size/count, ie if 20 pages and split into 5, it does 5 documents each 4 pages\r\n"
                             + " if 10MB and each page is 1MB and you enter 2MB then 5 docs each 2MB (rounded so that it accepts 1.9MB but not 2.1MB) Input:PDF Output:ZIP-PDF Type:SISO")
-    public Result autoSplitPdf(@ModelAttribute SplitPdfBySizeOrCountRequest request)
+    public ResponseEntity<byte[]> autoSplitPdf(@ModelAttribute SplitPdfBySizeOrCountRequest request)
             throws Exception {
 
         MultipartFile file = request.getFileInput();

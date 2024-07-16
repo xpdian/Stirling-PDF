@@ -23,7 +23,6 @@ import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.PDFFile;
 import stirling.software.SPDF.utils.WebResponseUtils;
 
@@ -39,7 +38,7 @@ public class RemoveCertSignController {
             summary = "Remove digital signature from PDF",
             description =
                     "This endpoint accepts a PDF file and returns the PDF file without the digital signature. Input: PDF, Output: PDF")
-    public Result removeCertSignPDF(@ModelAttribute PDFFile request)
+    public ResponseEntity<byte[]> removeCertSignPDF(@ModelAttribute PDFFile request)
             throws Exception {
         MultipartFile pdf = request.getFileInput();
 

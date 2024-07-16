@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.http.HttpHeaders;
@@ -14,21 +13,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.github.pixee.security.Filenames;
-import stirling.software.SPDF.domain.Result;
 
 public class WebResponseUtils {
 
-    public static Result boasToWebResponse(
+    public static ResponseEntity<byte[]> boasToWebResponse(
             ByteArrayOutputStream baos, String docName) throws IOException {
         return WebResponseUtils.bytesToWebResponse(baos.toByteArray(), docName);
     }
 
-    public static Result boasToWebResponse(
+    public static ResponseEntity<byte[]> boasToWebResponse(
             ByteArrayOutputStream baos, String docName, MediaType mediaType) throws IOException {
         return WebResponseUtils.bytesToWebResponse(baos.toByteArray(), docName, mediaType);
     }
 
-    public static Result multiPartFileToWebResponse(MultipartFile file)
+    public static ResponseEntity<byte[]> multiPartFileToWebResponse(MultipartFile file)
             throws IOException {
         String fileName = Filenames.toSimpleFileName(file.getOriginalFilename());
         MediaType mediaType = MediaType.parseMediaType(file.getContentType());
@@ -38,7 +36,7 @@ public class WebResponseUtils {
         return bytesToWebResponse(bytes, fileName, mediaType);
     }
 
-    public static Result bytesToWebResponse(
+    public static ResponseEntity<byte[]> bytesToWebResponse(
             byte[] bytes, String docName, MediaType mediaType) throws IOException {
 
         // Return the PDF as a response
@@ -49,15 +47,15 @@ public class WebResponseUtils {
                 URLEncoder.encode(docName, StandardCharsets.UTF_8.toString())
                         .replaceAll("\\+", "%20");
         headers.setContentDispositionFormData("attachment", encodedDocName);
-        return Result.ok().data(Base64.getEncoder().encodeToString(bytes));
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
 
-    public static Result bytesToWebResponse(byte[] bytes, String docName)
+    public static ResponseEntity<byte[]> bytesToWebResponse(byte[] bytes, String docName)
             throws IOException {
         return bytesToWebResponse(bytes, docName, MediaType.APPLICATION_PDF);
     }
 
-    public static Result pdfDocToWebResponse(PDDocument document, String docName)
+    public static ResponseEntity<byte[]> pdfDocToWebResponse(PDDocument document, String docName)
             throws IOException {
 
         // Open Byte Array and save document to it
