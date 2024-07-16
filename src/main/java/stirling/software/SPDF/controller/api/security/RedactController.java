@@ -18,6 +18,7 @@ import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +47,8 @@ public class RedactController {
             summary = "Redacts listOfText in a PDF document",
             description =
                     "This operation takes an input PDF file and redacts the provided listOfText. Input:PDF, Output:PDF, Type:SISO")
-    public Result redactPdf(@ModelAttribute RedactPdfRequest request) throws Exception {
+    public Result redactPdf(@ModelAttribute RedactPdfRequest request)
+            throws Exception {
         MultipartFile file = request.getFileInput();
         String listOfTextString = request.getListOfText();
         boolean useRegex = request.isUseRegex();

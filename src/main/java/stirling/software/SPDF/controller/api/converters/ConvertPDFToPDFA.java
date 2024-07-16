@@ -18,6 +18,7 @@ import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.converters.PdfToPdfARequest;
 import stirling.software.SPDF.utils.ProcessExecutor;
 import stirling.software.SPDF.utils.ProcessExecutor.ProcessExecutorResult;
+import stirling.software.SPDF.utils.WebResponseUtils;
 
 @RestController
 @RequestMapping("/api/v1/convert")
@@ -45,7 +47,8 @@ public class ConvertPDFToPDFA {
             summary = "Convert a PDF to a PDF/A",
             description =
                     "This endpoint converts a PDF file to a PDF/A file. PDF/A is a format designed for long-term archiving of digital documents. Input:PDF Output:PDF Type:SISO")
-    public Result pdfToPdfA(@ModelAttribute PdfToPdfARequest request) throws Exception {
+    public Result pdfToPdfA(@ModelAttribute PdfToPdfARequest request)
+            throws Exception {
         MultipartFile inputFile = request.getFileInput();
         String outputFormat = request.getOutputFormat();
 

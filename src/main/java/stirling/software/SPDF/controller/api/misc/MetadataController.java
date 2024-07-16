@@ -13,6 +13,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,8 @@ public class MetadataController {
             summary = "Update metadata of a PDF file",
             description =
                     "This endpoint allows you to update the metadata of a given PDF file. You can add, modify, or delete standard and custom metadata fields. Input:PDF Output:PDF Type:SISO")
-    public Result metadata(@ModelAttribute MetadataRequest request) throws IOException {
+    public Result metadata(@ModelAttribute MetadataRequest request)
+            throws IOException {
 
         // Extract PDF file from the request object
         MultipartFile pdfFile = request.getFileInput();

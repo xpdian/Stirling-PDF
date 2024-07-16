@@ -20,6 +20,7 @@ import org.apache.pdfbox.pdmodel.graphics.PDXObject;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,8 @@ public class CompressController {
             summary = "Optimize PDF file",
             description =
                     "This endpoint accepts a PDF file and optimizes it based on the provided parameters. Input:PDF Output:PDF Type:SISO")
-    public Result optimizePdf(@ModelAttribute OptimizePdfRequest request) throws Exception {
+    public Result optimizePdf(@ModelAttribute OptimizePdfRequest request)
+            throws Exception {
         MultipartFile inputFile = request.getFileInput();
         Integer optimizeLevel = request.getOptimizeLevel();
         String expectedOutputSizeString = request.getExpectedOutputSize();

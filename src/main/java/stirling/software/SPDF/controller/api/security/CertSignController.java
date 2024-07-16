@@ -35,6 +35,7 @@ import org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfo;
 import org.bouncycastle.pkcs.PKCSException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,7 +77,8 @@ public class CertSignController {
             summary = "Sign PDF with a Digital Certificate",
             description =
                     "This endpoint accepts a PDF file, a digital certificate and related information to sign the PDF. It then returns the digitally signed PDF file. Input:PDF Output:PDF Type:SISO")
-    public Result signPDFWithCert(@ModelAttribute SignPDFWithCertRequest request) throws Exception {
+    public Result signPDFWithCert(@ModelAttribute SignPDFWithCertRequest request)
+            throws Exception {
         MultipartFile pdf = request.getFileInput();
         String certType = request.getCertType();
         MultipartFile privateKeyFile = request.getPrivateKeyFile();

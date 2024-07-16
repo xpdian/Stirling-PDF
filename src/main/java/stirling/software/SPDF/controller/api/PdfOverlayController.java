@@ -13,6 +13,7 @@ import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.multipdf.Overlay;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +39,8 @@ public class PdfOverlayController {
             summary = "Overlay PDF files in various modes",
             description =
                     "Overlay PDF files onto a base PDF with different modes: Sequential, Interleaved, or Fixed Repeat. Input:PDF Output:PDF Type:MIMO")
-    public Result overlayPdfs(@ModelAttribute OverlayPdfsRequest request) throws IOException {
+    public Result overlayPdfs(@ModelAttribute OverlayPdfsRequest request)
+            throws IOException {
         MultipartFile baseFile = request.getFileInput();
         int overlayPos = request.getOverlayPosition();
 

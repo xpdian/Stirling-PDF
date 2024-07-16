@@ -11,6 +11,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,8 @@ public class AutoRenameController {
             summary = "Extract header from PDF file",
             description =
                     "This endpoint accepts a PDF file and attempts to extract its title or header based on heuristics. Input:PDF Output:PDF Type:SISO")
-    public Result extractHeader(@ModelAttribute ExtractHeaderRequest request) throws Exception {
+    public Result extractHeader(@ModelAttribute ExtractHeaderRequest request)
+            throws Exception {
         MultipartFile file = request.getFileInput();
         Boolean useFirstTextAsFallback = request.isUseFirstTextAsFallback();
 

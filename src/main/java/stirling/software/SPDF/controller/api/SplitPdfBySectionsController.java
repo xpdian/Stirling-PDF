@@ -21,6 +21,7 @@ import org.apache.pdfbox.util.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +49,8 @@ public class SplitPdfBySectionsController {
             summary = "Split PDF pages into smaller sections",
             description =
                     "Split each page of a PDF into smaller sections based on the user's choice (halves, thirds, quarters, etc.), both vertically and horizontally. Input:PDF Output:ZIP-PDF Type:SISO")
-    public Result splitPdf(@ModelAttribute SplitPdfBySectionsRequest request) throws Exception {
+    public Result splitPdf(@ModelAttribute SplitPdfBySectionsRequest request)
+            throws Exception {
         List<ByteArrayOutputStream> splitDocumentsBoas = new ArrayList<>();
 
         MultipartFile file = request.getFileInput();

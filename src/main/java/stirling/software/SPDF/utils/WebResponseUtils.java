@@ -8,17 +8,18 @@ import java.util.Base64;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.github.pixee.security.Filenames;
-
 import stirling.software.SPDF.domain.Result;
 
 public class WebResponseUtils {
 
-    public static Result boasToWebResponse(ByteArrayOutputStream baos, String docName)
-            throws IOException {
+    public static Result boasToWebResponse(
+            ByteArrayOutputStream baos, String docName) throws IOException {
         return WebResponseUtils.bytesToWebResponse(baos.toByteArray(), docName);
     }
 
@@ -27,7 +28,8 @@ public class WebResponseUtils {
         return WebResponseUtils.bytesToWebResponse(baos.toByteArray(), docName, mediaType);
     }
 
-    public static Result multiPartFileToWebResponse(MultipartFile file) throws IOException {
+    public static Result multiPartFileToWebResponse(MultipartFile file)
+            throws IOException {
         String fileName = Filenames.toSimpleFileName(file.getOriginalFilename());
         MediaType mediaType = MediaType.parseMediaType(file.getContentType());
 
@@ -36,8 +38,8 @@ public class WebResponseUtils {
         return bytesToWebResponse(bytes, fileName, mediaType);
     }
 
-    public static Result bytesToWebResponse(byte[] bytes, String docName, MediaType mediaType)
-            throws IOException {
+    public static Result bytesToWebResponse(
+            byte[] bytes, String docName, MediaType mediaType) throws IOException {
 
         // Return the PDF as a response
         HttpHeaders headers = new HttpHeaders();
@@ -50,7 +52,8 @@ public class WebResponseUtils {
         return Result.ok().data(Base64.getEncoder().encodeToString(bytes));
     }
 
-    public static Result bytesToWebResponse(byte[] bytes, String docName) throws IOException {
+    public static Result bytesToWebResponse(byte[] bytes, String docName)
+            throws IOException {
         return bytesToWebResponse(bytes, docName, MediaType.APPLICATION_PDF);
     }
 
