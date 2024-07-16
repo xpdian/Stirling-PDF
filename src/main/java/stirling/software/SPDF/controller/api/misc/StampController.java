@@ -26,7 +26,6 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState;
 import org.apache.pdfbox.util.Matrix;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,8 +50,7 @@ public class StampController {
             summary = "Add stamp to a PDF file",
             description =
                     "This endpoint adds a stamp to a given PDF file. Users can specify the stamp type (text or image), rotation, opacity, width spacer, and height spacer. Input:PDF Output:PDF Type:SISO")
-    public Result addStamp(@ModelAttribute AddStampRequest request)
-            throws IOException, Exception {
+    public Result addStamp(@ModelAttribute AddStampRequest request) throws IOException, Exception {
         MultipartFile pdfFile = request.getFileInput();
         String stampType = request.getStampType();
         String stampText = request.getStampText();

@@ -22,7 +22,6 @@ import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -114,8 +113,7 @@ public class MergeController {
             summary = "Merge multiple PDF files into one",
             description =
                     "This endpoint merges multiple PDF files into a single PDF file. The merged file will contain all pages from the input files in the order they were provided. Input:PDF Output:PDF Type:MISO")
-    public Result mergePdfs(@ModelAttribute MergePdfsRequest form)
-            throws IOException {
+    public Result mergePdfs(@ModelAttribute MergePdfsRequest form) throws IOException {
         List<File> filesToDelete = new ArrayList<>(); // List of temporary files to delete
         ByteArrayOutputStream docOutputstream =
                 new ByteArrayOutputStream(); // Stream for the merged document

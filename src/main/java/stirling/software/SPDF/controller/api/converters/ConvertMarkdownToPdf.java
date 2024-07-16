@@ -26,7 +26,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.GeneralFile;
 import stirling.software.SPDF.utils.FileToPdf;
-import stirling.software.SPDF.utils.WebResponseUtils;
 
 @RestController
 @Tag(name = "Convert", description = "Convert APIs")
@@ -42,8 +41,7 @@ public class ConvertMarkdownToPdf {
             summary = "Convert a Markdown file to PDF",
             description =
                     "This endpoint takes a Markdown file input, converts it to HTML, and then to PDF format. Input:MARKDOWN Output:PDF Type:SISO")
-    public Result markdownToPdf(@ModelAttribute GeneralFile request)
-            throws Exception {
+    public Result markdownToPdf(@ModelAttribute GeneralFile request) throws Exception {
         MultipartFile fileInput = request.getFileInput();
 
         if (fileInput == null) {

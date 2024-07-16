@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -107,7 +106,11 @@ public class ExtractController {
                                         + "_extracted.csv")
                         .build());
         headers.setContentType(MediaType.parseMediaType("text/csv; charset=utf-8"));
-        return Result.ok().data(Base64.getEncoder().encodeToString(writer.toString().getBytes(StandardCharsets.UTF_8)));
+        return Result.ok()
+                .data(
+                        Base64.getEncoder()
+                                .encodeToString(
+                                        writer.toString().getBytes(StandardCharsets.UTF_8)));
     }
 
     private ArrayList<String> getRecordsList(int rowsCounts, List<String> items) {

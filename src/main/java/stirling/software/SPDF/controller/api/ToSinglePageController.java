@@ -13,7 +13,6 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,8 +37,7 @@ public class ToSinglePageController {
             summary = "Convert a multi-page PDF into a single long page PDF",
             description =
                     "This endpoint converts a multi-page PDF document into a single paged PDF document. The width of the single page will be same as the input's width, but the height will be the sum of all the pages' heights. Input:PDF Output:PDF Type:SISO")
-    public Result pdfToSinglePage(@ModelAttribute PDFFile request)
-            throws IOException {
+    public Result pdfToSinglePage(@ModelAttribute PDFFile request) throws IOException {
 
         // Load the source document
         PDDocument sourceDocument = Loader.loadPDF(request.getFileInput().getBytes());

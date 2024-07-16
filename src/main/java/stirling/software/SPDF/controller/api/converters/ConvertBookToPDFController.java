@@ -1,8 +1,9 @@
 package stirling.software.SPDF.controller.api.converters;
 
+import java.util.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +17,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.model.api.GeneralFile;
 import stirling.software.SPDF.utils.FileToPdf;
-import stirling.software.SPDF.utils.WebResponseUtils;
-
-import java.util.Base64;
 
 @RestController
 @Tag(name = "Convert", description = "Convert APIs")

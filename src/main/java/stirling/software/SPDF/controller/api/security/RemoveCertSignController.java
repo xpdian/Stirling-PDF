@@ -12,7 +12,6 @@ import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,8 +38,7 @@ public class RemoveCertSignController {
             summary = "Remove digital signature from PDF",
             description =
                     "This endpoint accepts a PDF file and returns the PDF file without the digital signature. Input: PDF, Output: PDF")
-    public Result removeCertSignPDF(@ModelAttribute PDFFile request)
-            throws Exception {
+    public Result removeCertSignPDF(@ModelAttribute PDFFile request) throws Exception {
         MultipartFile pdf = request.getFileInput();
 
         // Convert MultipartFile to byte[]

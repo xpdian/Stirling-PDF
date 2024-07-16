@@ -14,7 +14,6 @@ import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,8 +41,7 @@ public class PageNumbersController {
             summary = "Add page numbers to a PDF document",
             description =
                     "This operation takes an input PDF file and adds page numbers to it. Input:PDF Output:PDF Type:SISO")
-    public Result addPageNumbers(@ModelAttribute AddPageNumbersRequest request)
-            throws IOException {
+    public Result addPageNumbers(@ModelAttribute AddPageNumbersRequest request) throws IOException {
         MultipartFile file = request.getFileInput();
         String customMargin = request.getCustomMargin();
         int position = request.getPosition();

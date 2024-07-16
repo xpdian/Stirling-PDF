@@ -8,7 +8,6 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +34,7 @@ public class RotationController {
             summary = "Rotate a PDF file",
             description =
                     "This endpoint rotates a given PDF file by a specified angle. The angle must be a multiple of 90. Input:PDF Output:PDF Type:SISO")
-    public Result rotatePDF(@ModelAttribute RotatePDFRequest request)
-            throws IOException {
+    public Result rotatePDF(@ModelAttribute RotatePDFRequest request) throws IOException {
         MultipartFile pdfFile = request.getFileInput();
         Integer angle = request.getAngle();
         // Load the PDF document

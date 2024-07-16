@@ -8,7 +8,6 @@ import org.apache.pdfbox.pdmodel.encryption.AccessPermission;
 import org.apache.pdfbox.pdmodel.encryption.StandardProtectionPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +35,7 @@ public class PasswordController {
             summary = "Remove password from a PDF file",
             description =
                     "This endpoint removes the password from a protected PDF file. Users need to provide the existing password. Input:PDF Output:PDF Type:SISO")
-    public Result removePassword(@ModelAttribute PDFPasswordRequest request)
-            throws IOException {
+    public Result removePassword(@ModelAttribute PDFPasswordRequest request) throws IOException {
         MultipartFile fileInput = request.getFileInput();
         String password = request.getPassword();
 
@@ -55,8 +53,7 @@ public class PasswordController {
             summary = "Add password to a PDF file",
             description =
                     "This endpoint adds password protection to a PDF file. Users can specify a set of permissions that should be applied to the file. Input:PDF Output:PDF")
-    public Result addPassword(@ModelAttribute AddPasswordRequest request)
-            throws IOException {
+    public Result addPassword(@ModelAttribute AddPasswordRequest request) throws IOException {
         MultipartFile fileInput = request.getFileInput();
         String ownerPassword = request.getOwnerPassword();
         String password = request.getPassword();

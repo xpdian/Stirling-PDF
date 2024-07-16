@@ -16,7 +16,6 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,8 +44,7 @@ public class SplitPDFController {
             summary = "Split a PDF file into separate documents",
             description =
                     "This endpoint splits a given PDF file into separate documents based on the specified page numbers or ranges. Users can specify pages using individual numbers, ranges, or 'all' for every page. Input:PDF Output:PDF Type:SIMO")
-    public Result splitPdf(@ModelAttribute PDFWithPageNums request)
-            throws IOException {
+    public Result splitPdf(@ModelAttribute PDFWithPageNums request) throws IOException {
         MultipartFile file = request.getFileInput();
         String pages = request.getPageNumbers();
         // open the pdf document

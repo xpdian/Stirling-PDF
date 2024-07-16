@@ -21,7 +21,6 @@ import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,8 +45,7 @@ public class SanitizeController {
             summary = "Sanitize a PDF file",
             description =
                     "This endpoint processes a PDF file and removes specific elements based on the provided options. Input:PDF Output:PDF Type:SISO")
-    public Result sanitizePDF(@ModelAttribute SanitizePdfRequest request)
-            throws IOException {
+    public Result sanitizePDF(@ModelAttribute SanitizePdfRequest request) throws IOException {
         MultipartFile inputFile = request.getFileInput();
         boolean removeJavaScript = request.isRemoveJavaScript();
         boolean removeEmbeddedFiles = request.isRemoveEmbeddedFiles();

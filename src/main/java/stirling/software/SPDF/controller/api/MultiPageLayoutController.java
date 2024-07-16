@@ -14,7 +14,6 @@ import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
 import org.apache.pdfbox.util.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,8 +40,8 @@ public class MultiPageLayoutController {
             summary = "Merge multiple pages of a PDF document into a single page",
             description =
                     "This operation takes an input PDF file and the number of pages to merge into a single sheet in the output PDF file. Input:PDF Output:PDF Type:SISO")
-    public Result mergeMultiplePagesIntoOne(
-            @ModelAttribute MergeMultiplePagesRequest request) throws IOException {
+    public Result mergeMultiplePagesIntoOne(@ModelAttribute MergeMultiplePagesRequest request)
+            throws IOException {
 
         int pagesPerSheet = request.getPagesPerSheet();
         MultipartFile file = request.getFileInput();

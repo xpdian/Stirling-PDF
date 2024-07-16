@@ -15,7 +15,6 @@ import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
 import org.apache.pdfbox.util.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,8 +41,7 @@ public class ScalePagesController {
             summary = "Change the size of a PDF page/document",
             description =
                     "This operation takes an input PDF file and the size to scale the pages to in the output PDF file. Input:PDF Output:PDF Type:SISO")
-    public Result scalePages(@ModelAttribute ScalePagesRequest request)
-            throws IOException {
+    public Result scalePages(@ModelAttribute ScalePagesRequest request) throws IOException {
         MultipartFile file = request.getFileInput();
         String targetPDRectangle = request.getPageSize();
         float scaleFactor = request.getScaleFactor();
