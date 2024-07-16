@@ -12,7 +12,10 @@ import stirling.software.SPDF.domain.dto.ClientInfoDTO;
  * @author：xp
  * @date：2024/7/13 16:52
  */
-@FeignClient(name = "${security.serviceName}", url = "${security.url}", configuration = CustomerFeignConfiguration.class)
+@FeignClient(
+        name = "${security.serviceName}",
+        url = "${security.url}",
+        configuration = CustomerFeignConfiguration.class)
 public interface UserFeign {
 
     //    @PostMapping("/xpstart/login")

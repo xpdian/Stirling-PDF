@@ -1,5 +1,7 @@
 package stirling.software.SPDF.interceptor;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -8,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import stirling.software.SPDF.config.client.ClientProperties;
 import stirling.software.SPDF.constants.HttpStatusConstants;
 import stirling.software.SPDF.domain.Result;
@@ -20,11 +21,11 @@ import stirling.software.SPDF.feign.UserFeign;
  * @date：2024/7/13 21:03
  */
 @Component
-@RequiredArgsConstructor
 public class ApiInterceptor implements HandlerInterceptor {
 
-    private final UserFeign userFeign;
-    private final ClientProperties clientProperties;
+    @Autowired @Lazy private UserFeign userFeign;
+
+    @Autowired private ClientProperties clientProperties;
 
     @Override
     public boolean preHandle(
@@ -43,7 +44,7 @@ public class ApiInterceptor implements HandlerInterceptor {
             response.setCharacterEncoding("utf-8");
             response.getWriter().print(s);
             response.setStatus(org.springframework.http.HttpStatus.UNAUTHORIZED.value());
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
             return false;
         }
     }
