@@ -35,15 +35,26 @@ public class ApiInterceptor implements HandlerInterceptor {
         ClientInfoDTO clientInfo = new ClientInfoDTO();
         clientInfo.setClientId(clientProperties.getClientId());
         clientInfo.setSecret(clientProperties.getSecret());
-        Boolean can = userFeign.authVip(request.getHeader("Authentication"), clientInfo);
-        if (can) {
+        Result result = null;
+        try {
+            result = userFeign.authVip(request.getHeader("Authentication"), clientInfo);
+        } catch (Exception e) {
+            Result error = Result.error(e.getMessage());
+            String s = new ObjectMapper().writeValueAsString(error);
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().print(s);
+            response.setStatus(200);
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
+            return false;
+        }
+        if ((Boolean) result.get("data")) {
             return HandlerInterceptor.super.preHandle(request, response, handler);
         } else {
             Result error = Result.error(HttpStatusConstants.NOT_VIP, "有相应会员才能执行此操作");
             String s = new ObjectMapper().writeValueAsString(error);
             response.setCharacterEncoding("utf-8");
             response.getWriter().print(s);
-            response.setStatus(org.springframework.http.HttpStatus.UNAUTHORIZED.value());
+            response.setStatus(200);
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
             return false;
         }

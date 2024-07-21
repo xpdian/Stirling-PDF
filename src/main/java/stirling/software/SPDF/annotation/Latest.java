@@ -6,15 +6,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 文件操作记录
+ * 操作记录
  *
  * @author 29443
  * @date 2022/4/19
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
-public @interface FileLog {
+public @interface Latest {
 
-    /** 操作内容 */
-    String opContent() default "";
+    /** 操作 */
+    String opName() default "";
+
+    /** 操作对应路由 */
+    String router() default "";
 }

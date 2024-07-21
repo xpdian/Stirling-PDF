@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import stirling.software.SPDF.annotation.FileLog;
 import stirling.software.SPDF.domain.vo.FileHandlerResultVO;
 import stirling.software.SPDF.model.api.PDFFile;
 import stirling.software.SPDF.model.api.converters.PdfToPresentationRequest;
@@ -71,7 +70,6 @@ public class ConvertPDFToOffice {
             summary = "Convert PDF to Word document",
             description =
                     "This endpoint converts a given PDF file to a Word document format. Input:PDF Output:WORD Type:SISO")
-    @FileLog(opContent = "PDF转WORD")
     public FileHandlerResultVO processPdfToWord(
             @ModelAttribute PdfToWordRequest request, HttpServletResponse response)
             throws Exception {

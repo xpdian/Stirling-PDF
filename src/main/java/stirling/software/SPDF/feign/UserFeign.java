@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import stirling.software.SPDF.config.feign.CustomerFeignConfiguration;
+import stirling.software.SPDF.domain.Result;
 import stirling.software.SPDF.domain.dto.ClientInfoDTO;
+import stirling.software.SPDF.domain.dto.LatestDTO;
 
 /**
  * @author：xp
@@ -29,5 +31,15 @@ public interface UserFeign {
      * @return
      */
     @PostMapping("/vip/check")
-    Boolean authVip(@RequestHeader("Authorization") String token, @RequestBody ClientInfoDTO dto);
+    Result authVip(@RequestHeader("Authorization") String token, @RequestBody ClientInfoDTO dto);
+
+    /**
+     * 保存最近使用
+     *
+     * @param token
+     * @param dto 客户端身份信息及其他信息
+     * @return
+     */
+    @PostMapping("/latest-use/client")
+    Result latest(@RequestHeader("Authorization") String token, @RequestBody LatestDTO dto);
 }

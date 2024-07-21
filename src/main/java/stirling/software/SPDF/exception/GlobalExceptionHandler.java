@@ -47,6 +47,21 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 处理运行时异常
+     *
+     * @param e
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public Result runtimeExceptionHandle(RuntimeException e, HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}',发生未知异常：{}", requestURI, e);
+        this.printExceptionLocation(e, request, e.getMessage());
+        return Result.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+    }
+
+    /**
      * token异常
      *
      * @param e
@@ -68,7 +83,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(Exception.class)
-    public Result runtimeExceptionHandle(Exception e, HttpServletRequest request) {
+    public Result exceptionHandle(Exception e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',发生未知异常：{}", requestURI, e);
         this.printExceptionLocation(e, request, e.getMessage());
